@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p $PORT",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
@@ -15,7 +14,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^11.11.1",
     "mini-svg-data-uri": "^1.4.4",
-    "next": "14.2.14",
+    "next": "^14.2.14",
     "react": "^18",
     "react-dom": "^18",
     "react-wrap-balancer": "^1.1.1",

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "../../node_modules/next/image";
 import Navbar from "./navbar";
 
 export default function Home() {
@@ -103,10 +104,12 @@ export default function Home() {
           {filteredDoughnuts.map((doughnut, index) => (
             <div key={index} className="flex flex-col items-center max-w-sm w-full">
               <div className="flex flex-col items-center justify-center border rounded-lg p-4 shadow-md min-h-[300px] w-full hover:shadow-xl hover:border-gray-200 transition duration-200 bg-white">
-                <img
-                  src="/donut.png" // Correct path to the public folder
-                  alt={doughnut.name}
-                  className="w-40 h-55 rounded-full mb-4"
+              <Image
+                src="/donut.png" // Correct path to the public folder
+                alt={doughnut.name} // Assuming doughnut is a variable with a name property
+                className="rounded-full mb-4"
+                width={160} // Set your desired width (40 * 4 for tailwind's w-40)
+                height={220} // Set your desired height (55 * 4 for tailwind's h-55)
                 />
               </div>
               <div className="mt-4 flex justify-between items-center w-full">
