@@ -1,101 +1,122 @@
-import Image from "next/image";
+"use client";
+
+import React, { useState } from "react";
+import Navbar from "./navbar";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const doughnuts = [
+    { name: "Caramel Glazed Doughnut", price: "$1.99", type: "glazed" },
+    { name: "Caramel Crunch Doughnut", price: "$2.49", type: "filled" },
+    { name: "Pumpkin Spice Cake", price: "$2.99", type: "cake" },
+    { name: "Reese's Classic Doughnut", price: "$3.49", type: "chocolate" },
+    { name: "Original Filled Original Kreme™", price: "$2.29", type: "filled" },
+    { name: "Original Filled Chocolate Kreme™", price: "$2.79", type: "filled" },
+    { name: "Original Glazed ®", price: "$1.89", type: "glazed" },
+    { name: "Chocolate Iced Glazed", price: "$2.19", type: "iced" },
+    { name: "Chocolate Sprinkled", price: "$2.39", type: "iced" },
+    { name: "Cookies & Cream Doughnut", price: "$3.19", type: "chocolate" },
+    { name: "Glazed Doughnut", price: "$1.99", type: "glazed" },
+    { name: "Chocolate Iced Sprinkles", price: "$2.49", type: "iced" },
+  ];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const [filter, setFilter] = useState("all");
+
+  const filteredDoughnuts = filter === "all" ? doughnuts : doughnuts.filter((doughnut) => doughnut.type === filter);
+
+  return (
+    <div className="min-h-screen p-8 sm:p-20 bg-dot-black/[.2]">
+      <main className="flex flex-col items-center max-w-screen-lg mx-auto gap-2">
+        <Navbar />
+        <h2 className="text-1xl md:text-3xl lg:text-7xl font-bold text-center text-green-800 tracking-tight pt-12">
+          Doughnuts
+        </h2>
+        <p className="text-center tracking-tight pt-1 pb-10 text-gray-400 text-bold">
+          Daily Selection Varies by Shop
+        </p>
+
+        {/* Filtering options */}
+        <div className="flex gap-12 pb-6">
+          <button
+            className={`text-sm font-bold pb-2 ${
+              filter === "all"
+                ? "text-green-800 border-b-2 border-green-700"
+                : "text-slate-700 hover:border-b-2 hover:border-green-700"
+            }`}
+            onClick={() => setFilter("all")}
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            ALL
+          </button>
+          <button
+            className={`text-sm font-bold pb-2 ${
+              filter === "iced"
+                ? "text-green-800 border-b-2 border-green-700"
+                : "text-slate-700 hover:border-b-2 hover:border-green-700"
+            }`}
+            onClick={() => setFilter("iced")}
           >
-            Read our docs
-          </a>
+            ICED
+          </button>
+          <button
+            className={`text-sm font-bold pb-2 ${
+              filter === "glazed"
+                ? "text-green-800 border-b-2 border-green-700"
+                : "text-slate-700 hover:border-b-2 hover:border-green-700"
+            }`}
+            onClick={() => setFilter("glazed")}
+          >
+            GLAZED
+          </button>
+          <button
+            className={`text-sm font-bold pb-2 ${
+              filter === "filled"
+                ? "text-green-800 border-b-2 border-green-700"
+                : "text-slate-700 hover:border-b-2 hover:border-green-700"
+            }`}
+            onClick={() => setFilter("filled")}
+          >
+            FILLED
+          </button>
+          <button
+            className={`text-sm font-bold pb-2 ${
+              filter === "cake"
+                ? "text-green-800 border-b-2 border-green-700"
+                : "text-slate-700 hover:border-b-2 hover:border-green-700"
+            }`}
+            onClick={() => setFilter("cake")}
+          >
+            CAKE
+          </button>
+          <button
+            className={`text-sm font-bold pb-2 ${
+              filter === "chocolate"
+                ? "text-green-800 border-b-2 border-green-700"
+                : "text-slate-700 hover:border-b-2 hover:border-green-700"
+            }`}
+            onClick={() => setFilter("chocolate")}
+          >
+            CHOCOLATE
+          </button>
+        </div>
+
+        {/* Grid for doughnuts */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 w-full">
+          {filteredDoughnuts.map((doughnut, index) => (
+            <div key={index} className="flex flex-col items-center max-w-sm w-full">
+              <div className="flex flex-col items-center justify-center border rounded-lg p-4 shadow-md min-h-[300px] w-full hover:shadow-xl hover:border-gray-200 transition duration-200 bg-white">
+                <img
+                  src="/donut.png" // Correct path to the public folder
+                  alt={doughnut.name}
+                  className="w-40 h-55 rounded-full mb-4"
+                />
+              </div>
+              <div className="mt-4 flex justify-between items-center w-full">
+                <span className="text-sm text-green-800 font-bold">{doughnut.name}</span>
+                <span className="text-sm text-gray-400">{doughnut.price}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
