@@ -1,4 +1,4 @@
-import Image from "../../node_modules/next/image";
+import Image from "../../../node_modules/next/image";
 
 export default function Navbar() {
     return (

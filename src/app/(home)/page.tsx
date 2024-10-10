@@ -1,28 +1,46 @@
 "use client";
 
-import React, { useState } from "react";
-import Image from "../../node_modules/next/image";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import Navbar from "./navbar";
 
-export default function Home() {
-  const doughnuts = [
-    { name: "Caramel Glazed Doughnut", price: "$1.99", type: "glazed" },
-    { name: "Caramel Crunch Doughnut", price: "$2.49", type: "filled" },
-    { name: "Pumpkin Spice Cake", price: "$2.99", type: "cake" },
-    { name: "Reese's Classic Doughnut", price: "$3.49", type: "chocolate" },
-    { name: "Original Filled Original Kreme™", price: "$2.29", type: "filled" },
-    { name: "Original Filled Chocolate Kreme™", price: "$2.79", type: "filled" },
-    { name: "Original Glazed ®", price: "$1.89", type: "glazed" },
-    { name: "Chocolate Iced Glazed", price: "$2.19", type: "iced" },
-    { name: "Chocolate Sprinkled", price: "$2.39", type: "iced" },
-    { name: "Cookies & Cream Doughnut", price: "$3.19", type: "chocolate" },
-    { name: "Glazed Doughnut", price: "$1.99", type: "glazed" },
-    { name: "Chocolate Iced Sprinkles", price: "$2.49", type: "iced" },
-  ];
+type Doughnut = {
+  id: number;
+  name: string;
+  type: string;
+  price: number;
+};
 
+export default function Home() {
+  const [doughnuts, setDoughnuts] = useState<Doughnut[]>([]);
   const [filter, setFilter] = useState("all");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch doughnuts from the API on component mount
+  useEffect(() => {
+    const fetchDoughnuts = async () => {
+      try {
+        const response = await fetch('/api/doughnuts');
+        if (!response.ok) {
+          throw new Error('Failed to fetch doughnuts');
+        }
+        const data = await response.json();
+        setDoughnuts(data);
+        setLoading(false);
+      } catch (err: any) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchDoughnuts();
+  }, []);
 
   const filteredDoughnuts = filter === "all" ? doughnuts : doughnuts.filter((doughnut) => doughnut.type === filter);
+
+  if (loading) return <p>Loading doughnuts...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="min-h-screen p-8 sm:p-20 bg-dot-black/[.2]">
@@ -104,17 +122,17 @@ export default function Home() {
           {filteredDoughnuts.map((doughnut, index) => (
             <div key={index} className="flex flex-col items-center max-w-sm w-full">
               <div className="flex flex-col items-center justify-center border rounded-lg p-4 shadow-md min-h-[300px] w-full hover:shadow-xl hover:border-gray-200 transition duration-200 bg-white">
-              <Image
-                src="/donut.png" // Correct path to the public folder
-                alt={doughnut.name} // Assuming doughnut is a variable with a name property
-                className="rounded-full mb-4"
-                width={160} // Set your desired width (40 * 4 for tailwind's w-40)
-                height={220} // Set your desired height (55 * 4 for tailwind's h-55)
+                <Image
+                  src="/donut.png" // Correct path to the public folder
+                  alt={doughnut.name}
+                  className="rounded-full mb-4"
+                  width={160}
+                  height={220}
                 />
               </div>
               <div className="mt-4 flex justify-between items-center w-full">
                 <span className="text-sm text-green-800 font-bold">{doughnut.name}</span>
-                <span className="text-sm text-gray-400">{doughnut.price}</span>
+                <span className="text-sm text-gray-400">${doughnut.price}</span>
               </div>
             </div>
           ))}
