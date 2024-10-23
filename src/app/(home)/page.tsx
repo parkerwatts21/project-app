@@ -17,23 +17,26 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch doughnuts from the API on component mount
   useEffect(() => {
     const fetchDoughnuts = async () => {
       try {
-        const response = await fetch('/api/doughnuts');
+        const response = await fetch("/api/doughnuts");
         if (!response.ok) {
-          throw new Error('Failed to fetch doughnuts');
+          throw new Error("Failed to fetch doughnuts");
         }
         const data = await response.json();
         setDoughnuts(data);
         setLoading(false);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occurred");
+        }
         setLoading(false);
       }
     };
-
+  
     fetchDoughnuts();
   }, []);
 
@@ -123,16 +126,16 @@ export default function Home() {
             <div key={index} className="flex flex-col items-center max-w-sm w-full">
               <div className="flex flex-col items-center justify-center border rounded-lg p-4 shadow-md min-h-[300px] w-full hover:shadow-xl hover:border-gray-200 transition duration-200 bg-white">
                 <Image
-                  src="/donut.png" // Correct path to the public folder
+                  src={`/images/Doughnuts_${doughnut.id}.png`} // Correct path to the public folder
                   alt={doughnut.name}
                   className="rounded-full mb-4"
                   width={160}
                   height={220}
                 />
               </div>
-              <div className="mt-4 flex justify-between items-center w-full">
+              <div className="mt-4 flex justify-between w-full">
                 <span className="text-sm text-green-800 font-bold">{doughnut.name}</span>
-                <span className="text-sm text-gray-400">${doughnut.price}</span>
+                <span className="text-sm ml-2 text-gray-400">${doughnut.price}</span>
               </div>
             </div>
           ))}
